@@ -714,10 +714,119 @@ function hmrAccept(bundle /*: ParcelRequire */ , id /*: string */ ) {
 }
 
 },{}],"2R06K":[function(require,module,exports,__globalThis) {
-console.log('Hello world!');
-const foo = (a, b)=>a + b;
-foo(2, 5);
+// console.log('Hello world!');
+// const foo =(a,b) => a+b;
+// foo(2,5)
+// import plus from "./js/calculator"//дефолтний імпорт
+// console.log(plus(10, 3));
+// import { minus } from "./js/calculator";
+// console.log(minus(12,6));
+// import calc from "./js/calculator"
+// console.log(calc.add(34,4));
+// console.log(calc.minus(12,9));
+// import { minus, add} from "./js/calculator";
+// console.log(minus(2,5));
+// console.log(add(5,8));
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+var _artistJson = require("./artist.json");
+var _artistJsonDefault = parcelHelpers.interopDefault(_artistJson);
+var _createItems = require("./js/create-items");
+var _createItemsDefault = parcelHelpers.interopDefault(_createItems);
+const listEl = document.querySelector("list");
+listEl.innerHTML = (0, _createItemsDefault.default)((0, _artistJsonDefault.default));
 
-},{}]},["7wZbQ","2R06K"], "2R06K", "parcelRequireb3b7", {})
+},{"./artist.json":"42Edi","./js/create-items":"3xlPv","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"42Edi":[function(require,module,exports,__globalThis) {
+module.exports = JSON.parse("[{\"name\":\"Leonardo da Vinci\",\"country\":\"Italy\",\"born\":1452,\"died\":1519,\"style\":\"Renaissance\",\"famousWorks\":[\"Mona Lisa\",\"The Last Supper\",\"Vitruvian Man\"]},{\"name\":\"Vincent van Gogh\",\"country\":\"Netherlands\",\"born\":1853,\"died\":1890,\"style\":\"Post-Impressionism\",\"famousWorks\":[\"Starry Night\",\"Sunflowers\",\"Cafe Terrace at Night\"]},{\"name\":\"Pablo Picasso\",\"country\":\"Spain\",\"born\":1881,\"died\":1973,\"style\":\"Cubism\",\"famousWorks\":[\"Guernica\",\"Les Demoiselles d'Avignon\",\"The Weeping Woman\"]},{\"name\":\"Claude Monet\",\"country\":\"France\",\"born\":1840,\"died\":1926,\"style\":\"Impressionism\",\"famousWorks\":[\"Water Lilies\",\"Impression, Sunrise\",\"Woman with a Parasol\"]},{\"name\":\"Frida Kahlo\",\"country\":\"Mexico\",\"born\":1907,\"died\":1954,\"style\":\"Surrealism\",\"famousWorks\":[\"The Two Fridas\",\"Self-Portrait with Thorn Necklace\",\"The Broken Column\"]}]");
+
+},{}],"3xlPv":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "default", ()=>createItems);
+var _nanoid = require("nanoid");
+model.id = (0, _nanoid.nanoid)() //=> "V1StGXR8_Z5jdHi6B-myT"
+;
+function createItems(arr) {
+    const item = arr.map(({ name, country, born, died })=>{
+        return `<li class="item" id="${(0, _nanoid.nanoid)(5)}">
+    <h2 class="title">${name}</h2>
+    <h3>${country}</h3>
+    <p>${died}</p>
+    <p>${born}</p>
+    <p></p>
+</li>`;
+    }).join("");
+    return item;
+}
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT","nanoid":"328Fw"}],"jnFvT":[function(require,module,exports,__globalThis) {
+exports.interopDefault = function(a) {
+    return a && a.__esModule ? a : {
+        default: a
+    };
+};
+exports.defineInteropFlag = function(a) {
+    Object.defineProperty(a, '__esModule', {
+        value: true
+    });
+};
+exports.exportAll = function(source, dest) {
+    Object.keys(source).forEach(function(key) {
+        if (key === 'default' || key === '__esModule' || Object.prototype.hasOwnProperty.call(dest, key)) return;
+        Object.defineProperty(dest, key, {
+            enumerable: true,
+            get: function() {
+                return source[key];
+            }
+        });
+    });
+    return dest;
+};
+exports.export = function(dest, destName, get) {
+    Object.defineProperty(dest, destName, {
+        enumerable: true,
+        get: get
+    });
+};
+
+},{}],"328Fw":[function(require,module,exports,__globalThis) {
+/* @ts-self-types="./index.d.ts" */ var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "urlAlphabet", ()=>(0, _indexJs.urlAlphabet));
+parcelHelpers.export(exports, "random", ()=>random);
+parcelHelpers.export(exports, "customRandom", ()=>customRandom);
+parcelHelpers.export(exports, "customAlphabet", ()=>customAlphabet);
+parcelHelpers.export(exports, "nanoid", ()=>nanoid);
+var _indexJs = require("./url-alphabet/index.js");
+let random = (bytes)=>crypto.getRandomValues(new Uint8Array(bytes));
+let customRandom = (alphabet, defaultSize, getRandom)=>{
+    let mask = (2 << Math.log2(alphabet.length - 1)) - 1;
+    let step = -~(1.6 * mask * defaultSize / alphabet.length);
+    return (size = defaultSize)=>{
+        let id = '';
+        while(true){
+            let bytes = getRandom(step);
+            let j = step | 0;
+            while(j--){
+                id += alphabet[bytes[j] & mask] || '';
+                if (id.length >= size) return id;
+            }
+        }
+    };
+};
+let customAlphabet = (alphabet, size = 21)=>customRandom(alphabet, size | 0, random);
+let nanoid = (size = 21)=>{
+    let id = '';
+    let bytes = crypto.getRandomValues(new Uint8Array(size |= 0));
+    while(size--)id += (0, _indexJs.urlAlphabet)[bytes[size] & 63];
+    return id;
+};
+
+},{"./url-alphabet/index.js":"29KoN","@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}],"29KoN":[function(require,module,exports,__globalThis) {
+var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
+parcelHelpers.defineInteropFlag(exports);
+parcelHelpers.export(exports, "urlAlphabet", ()=>urlAlphabet);
+let urlAlphabet = 'useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict';
+
+},{"@parcel/transformer-js/src/esmodule-helpers.js":"jnFvT"}]},["7wZbQ","2R06K"], "2R06K", "parcelRequireb3b7", {})
 
 //# sourceMappingURL=parsel-1.0f77c784.js.map
